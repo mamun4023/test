@@ -14,22 +14,23 @@ const movieSchema = new mongoose.Schema(
             ref: "Actor",
          },
       ],
-      director: [
+      directors: [
          {
             type: mongoose.Schema.ObjectId,
             ref: "Director",
          },
       ],
-      producer: [
+      producers: [
          {
             type: mongoose.Schema.ObjectId,
             ref: "Producer",
          },
       ],
-
       releaseDate: {
-         type: new Date(),
+         type: String,
       },
    },
-   { timestamps }
+   { timestamps: true }
 );
+
+module.exports = new mongoose.model("Movie", movieSchema);

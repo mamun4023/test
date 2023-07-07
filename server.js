@@ -10,6 +10,8 @@ const PORT = process.env.PORT;
 const userRoutes = require("./routes/user");
 const movieRoutes = require("./routes/movie");
 const actorRoutes = require("./routes/actor");
+const directorRoutes = require("./routes/director");
+const producerRoutes = require("./routes/producer");
 
 // DB connection
 mongoose.connect(process.env.DB_STRING).then(() => {
@@ -25,6 +27,8 @@ app.use(cookieParser());
 app.use("/user", userRoutes);
 app.use("/movie", movieRoutes);
 app.use("/actor", actorRoutes);
+app.use("/director", directorRoutes);
+app.use("/producer", producerRoutes);
 
 app.use((err, req, res, next) => {
    if (err) {
