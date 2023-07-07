@@ -9,6 +9,7 @@ const PORT = process.env.PORT;
 // routes
 const userRoutes = require("./routes/user");
 const movieRoutes = require("./routes/movie");
+const actorRoutes = require("./routes/actor");
 
 // DB connection
 mongoose.connect(process.env.DB_STRING).then(() => {
@@ -23,6 +24,7 @@ app.use(cookieParser());
 // routes
 app.use("/user", userRoutes);
 app.use("/movie", movieRoutes);
+app.use("/actor", actorRoutes);
 
 app.use((err, req, res, next) => {
    if (err) {
