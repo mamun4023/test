@@ -2,10 +2,11 @@ const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
 const userModel = require("../models/user");
 
-const userValidator = require("../validations/user");
+const userSignUpValidator = require("../validations/userSignup");
+const userSigInValidator = require("../validations/userSignIn");
 
 const signUp = async (req, res, next) => {
-   const { errors, isValid } = userValidator(req.body);
+   const { errors, isValid } = userSignUpValidator(req.body);
 
    if (!isValid) {
       return res.status(404).json({
@@ -28,7 +29,7 @@ const signUp = async (req, res, next) => {
          name,
          email,
          role,
-         password,
+         password, // we need to hashed password to secure auth
       });
 
       const result = await newUser.save();
@@ -44,9 +45,17 @@ const signUp = async (req, res, next) => {
 };
 
 const signIn = async (req, res, next) => {
-   const { email, password } = req.body;
+   const { errors, isValid } = userSigInValidator(req.body);
+
+   if (!isValid) {
+      return res.status(404).json({
+         message: "validation error",
+         errors: errors,
+      });
+   }
 
    try {
+      const { email, password } = req.body;
       const result = await userModel.findOne({ email: email });
       if (!result) {
          return res.status(404).json({
@@ -65,7 +74,7 @@ const signIn = async (req, res, next) => {
          process.env.JWT_SIGNIN_SECRET
       );
 
-      // we need to add more option to secure cooki
+      // we need to add more option to secure cookie
       res.cookie("token", token);
 
       return res.status(200).json({
