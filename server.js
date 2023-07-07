@@ -3,10 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT;
 
 // routes
 const userRoutes = require("./routes/user");
+const movieRoutes = require("./routes/movie");
 
 // DB connection
 mongoose.connect(process.env.DB_STRING).then(() => {
@@ -16,8 +18,11 @@ mongoose.connect(process.env.DB_STRING).then(() => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(cookieParser());
+
 // routes
 app.use("/user", userRoutes);
+app.use("/movie", movieRoutes);
 
 app.use((err, req, res, next) => {
    if (err) {
