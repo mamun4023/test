@@ -1,4 +1,4 @@
-const actorModel = require("../models/actor");
+const directorModel = require("../models/director");
 
 const directorValidator = require("../validations/director");
 
@@ -13,7 +13,7 @@ const addDirector = async (req, res, next) => {
 
    try {
       const { name, age, category } = req.body;
-      const newDirector = new actorModel({
+      const newDirector = new directorModel({
          name,
          age,
          category,
@@ -33,7 +33,7 @@ const addDirector = async (req, res, next) => {
 
 const directorList = async (req, res, next) => {
    try {
-      const result = await actorModel.find({});
+      const result = await directorModel.find({});
       if (result) {
          return res.status(200).json({
             message: "Director List",

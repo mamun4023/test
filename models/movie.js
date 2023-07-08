@@ -8,6 +8,9 @@ const movieSchema = new mongoose.Schema(
       runtime: {
          type: String,
       },
+      releaseDate: {
+         type: String,
+      },
       actors: [
          {
             type: mongoose.Schema.ObjectId,
@@ -26,9 +29,8 @@ const movieSchema = new mongoose.Schema(
             ref: "Producer",
          },
       ],
-      releaseDate: {
-         type: String,
-      },
+
+      images: [],
    },
    { timestamps: true }
 );

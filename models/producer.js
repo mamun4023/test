@@ -12,4 +12,4 @@ const producerSchema = new mongoose.Schema({
    },
 });
 
-module.exports = mongoose.model("Producer", producerSchema);
+module.exports = new mongoose.model("Producer", producerSchema);
