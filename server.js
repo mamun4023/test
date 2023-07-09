@@ -1,22 +1,11 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || process.env.NODE_ENV;
-
-// const multer = require("multer");
-
-// const multerConfigure = multer.diskStorage({
-//    destination: "./uploads",
-//    filename: (res, file, cb) => {
-//       let fileName = Date.now() + "-" + file.originalname;
-//       cb(null, fileName);
-//    },
-// });
-
-//  const upload = multer({ storage: multerConfigure });
 
 // routes
 const userRoutes = require("./routes/user");
@@ -41,24 +30,7 @@ app.use("/movie", movieRoutes);
 app.use("/actor", actorRoutes);
 app.use("/director", directorRoutes);
 app.use("/producer", producerRoutes);
-
-// app.post("/upload", upload.single("avatar"), (req, res, next) => {
-//    console.log(req.file.path);
-//    return res.status(202).json({
-//       message: "image Saved",
-//    });
-// });
-
-// app.post("/form", upload.single("avatar"), (req, res) => {
-//    // Access the form data sent from Postman
-//    const formData = req.body;
-
-//    // Do something with the form data...
-//    console.log(formData);
-
-//    // Send a response
-//    res.send("Form data received");
-// });
+app.use("/public/images", express.static(__dirname + "/public/images"));
 
 app.use((err, req, res, next) => {
    if (err) {

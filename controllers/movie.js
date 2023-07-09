@@ -1,5 +1,6 @@
 const multer = require("multer");
 const movieModel = require("../models/movie");
+const { query } = require("express");
 
 const addMovie = async (req, res, next) => {
    try {
@@ -38,13 +39,19 @@ const addMovie = async (req, res, next) => {
 
 const movieList = async (req, res, next) => {
    try {
+      const { page, limit, search } = req.query;
+
+      const total = await movieModel.count();
       const result = await movieModel
          .find({})
-         // .populate({ path: "actors", select: ["name", "age", "category"] })
-         // .populate({ path: "directors", select: ["name", "age", "category"] })
+         .search(search)
+         .paginate(page, limit)
+         .populate("actors")
+         .populate("directors")
          .populate({ path: "producers", select: ["name", "age", "category"] });
       return res.status(200).json({
          message: "Data has been fetched",
+         total: total,
          data: result,
       });
    } catch (err) {

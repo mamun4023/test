@@ -35,4 +35,23 @@ const movieSchema = new mongoose.Schema(
    { timestamps: true }
 );
 
+movieSchema.query = {
+   search: function (arg) {
+      return this.find({ title: new RegExp(arg, "i") });
+   },
+   paginate: function (page = 1, limit = 10) {
+      return this.find({})
+         .limit(limit * 1)
+         .skip((page - 1) * limit);
+   },
+};
+
+// movieSchema.query = {
+//    paginate: function (page = 1, limit = 10) {
+//       return this.find({})
+//          .limit(limit * 1)
+//          .skip((page - 1) * limit);
+//    },
+// };
+
 module.exports = new mongoose.model("Movie", movieSchema);
