@@ -39,16 +39,17 @@ const addMovie = async (req, res, next) => {
 
 const movieList = async (req, res, next) => {
    try {
-      const { page, limit, search } = req.query;
+      const { page, limit, search, sortBy } = req.query;
 
       const total = await movieModel.count();
       const result = await movieModel
          .find({})
          .search(search)
          .paginate(page, limit)
+         .sortBy(sortBy)
          .populate("actors")
          .populate("directors")
-         .populate({ path: "producers", select: ["name", "age", "category"] });
+         .populate({ path: "producers", select: ["name", "age"] });
       return res.status(200).json({
          message: "Data has been fetched",
          total: total,
